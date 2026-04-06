@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Smart Ambulance System</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/4f3b2f6b6b.js" crossorigin="anonymous"></script>
+
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: white;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+            padding: 18px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .card {
+            background: #111827;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card i {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: #22c55e;
+        }
+
+        .card h2 {
+            margin: 5px 0;
+            font-size: 26px;
+        }
+
+        .card p {
+            margin: 0;
+            color: #9ca3af;
+        }
+
+        /* Controls */
+        .controls {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        select, button {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background: #22c55e;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #16a34a;
+        }
+
+        #status {
+            text-align: center;
+            padding: 12px;
+            background: #111827;
+            color: #facc15;
+            font-weight: bold;
+        }
+
+        #map {
+            height: 400px;
+        }
+
+        .chart-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body onload="initMap()">
+
+<div class="header">
+    🚑 AI Smart Ambulance Control Dashboard
+</div>
+
+<div class="dashboard">
+    <div class="card">
+        <i class="fas fa-ambulance"></i>
+        <h2 id="activeAmb">3</h2>
+        <p>Active Ambulances</p>
+    </div>
+
+    <div class="card">
+        <i class="fas fa-bell"></i>
+        <h2 id="requests">0</h2>
+        <p>Requests Handled</p>
+    </div>
+
+    <div class="card">
+        <i class="fas fa-clock"></i>
+        <h2 id="avgTime">0</h2>
+        <p>Avg Response Time</p>
+    </div>
+
+    <div class="card">
+        <i class="fas fa-signal"></i>
+        <h2 id="statusText">Idle</h2>
+        <p>System Status</p>
+    </div>
+</div>
+
+<div class="controls">
+    <select id="severity">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+    </select>
+
+    <button onclick="requestAmbulance()">🚑 Request Ambulance</button>
+</div>
+
+<p id="status">System ready...</p>
+
+<div class="chart-container">
+    <canvas id="statsChart"></canvas>
+</div>
+
+<div id="map"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
